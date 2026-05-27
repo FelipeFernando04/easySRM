@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1684321000000,
+    "name": "Fornecedor Alpha",
+    "category": "Tecnologia",
+    "contact": "alpha@test.com"
+  },
+  {
+    "id": 1779841696474,
+    "name": "Fornecedor A",
+    "category": "Categoria A"
+  }
+]
