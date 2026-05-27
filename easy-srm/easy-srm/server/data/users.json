@@ -1,4 +1,23 @@
 [
-  { "id": 1, "username": "admin", "password": "123", "role": "Admin" },
-  { "id": 2, "username": "comprador", "password": "123", "role": "Comprador" }
+  {
+    "id": 1,
+    "username": "loja1",
+    "password": "123",
+    "role": "Fornecedor",
+    "storeName": "Buffet Sabor & Arte",
+    "whatsapp": "5547999999999",
+    "indicacao": "Maria Produtora de Eventos",
+    "portfolio": [
+      "https://images.unsplash.com/photo-1555244162-803834f70033?w=500",
+      "https://images.unsplash.com/photo-1414235077428-33898ed1e81b?w=500",
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500"
+    ]
+  },
+  {
+    "id": 2,
+    "username": "comprador1",
+    "password": "123",
+    "role": "Comprador",
+    "name": "João Compras"
+  }
 ]

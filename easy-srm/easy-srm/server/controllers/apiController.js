@@ -1,75 +1,68 @@
 const fs = require('fs');
 const path = require('path');
 
-const readData = (file) => {
-  const filePath = path.join(__dirname, `../data/${file}.json`);
-  const rawData = fs.readFileSync(filePath);
-  return JSON.parse(rawData);
-};
-
-const writeData = (file, data) => {
-  const filePath = path.join(__dirname, `../data/${file}.json`);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-};
+const readData = (file) => JSON.parse(fs.readFileSync(path.join(__dirname, `../data/${file}.json`)));
+const writeData = (file, data) => fs.writeFileSync(path.join(__dirname, `../data/${file}.json`), JSON.stringify(data, null, 2));
 
 exports.login = (req, res) => {
-  const { username, password } = req.body;
   const users = readData('users');
-  const user = users.find(u => u.username === username && u.password === password);
-  
+  const user = users.find(u => u.username === req.body.username && u.password === req.body.password);
   if (user) {
-    res.json({ success: true, user: { id: user.id, username: user.username, role: user.role } });
+    const { password, ...userData } = user;
+    res.json({ success: true, user: userData });
   } else {
-    res.status(401).json({ success: false, message: 'Invalid credentials' });
+    res.status(401).json({ success: false, message: 'Credenciais inválidas' });
   }
 };
 
-exports.getDashboard = (req, res) => {
-  const suppliers = readData('suppliers');
-  const evaluations = readData('evaluations');
-  const purchases = readData('purchases');
-  
-  const totalSuppliers = suppliers.length;
-  const avgRating = evaluations.length > 0 
-    ? (evaluations.reduce((acc, curr) => acc + curr.rating, 0) / evaluations.length).toFixed(1)
-    : 0;
-  
-  res.json({ totalSuppliers, avgRating, recentPurchases: purchases.slice(-5).reverse() });
+exports.getProducts = (req, res) => res.json(readData('products'));
+exports.addProduct = (req, res) => {
+  const products = readData('products');
+  const newProduct = { id: Date.now(), ...req.body };
+  products.push(newProduct);
+  writeData('products', products);
+  res.json(newProduct);
 };
-
-exports.getSuppliers = (req, res) => res.json(readData('suppliers'));
-
-exports.addSupplier = (req, res) => {
-  const suppliers = readData('suppliers');
-  const newSupplier = { id: Date.now(), ...req.body };
-  suppliers.push(newSupplier);
-  writeData('suppliers', suppliers);
-  res.json(newSupplier);
-};
-
-exports.deleteSupplier = (req, res) => {
-  let suppliers = readData('suppliers');
-  suppliers = suppliers.filter(s => s.id !== parseInt(req.params.id));
-  writeData('suppliers', suppliers);
+exports.deleteProduct = (req, res) => {
+  let products = readData('products').filter(p => p.id !== parseInt(req.params.id));
+  writeData('products', products);
   res.json({ success: true });
 };
 
-exports.getEvaluations = (req, res) => res.json(readData('evaluations'));
-
-exports.addEvaluation = (req, res) => {
-  const evaluations = readData('evaluations');
-  const newEvaluation = { id: Date.now(), ...req.body };
-  evaluations.push(newEvaluation);
-  writeData('evaluations', evaluations);
-  res.json(newEvaluation);
+exports.getOrders = (req, res) => res.json(readData('orders'));
+exports.addOrder = (req, res) => {
+  const orders = readData('orders');
+  const newOrder = { id: Date.now(), status: 'Pendente', date: new Date().toLocaleDateString('pt-BR'), ...req.body };
+  orders.push(newOrder);
+  writeData('orders', orders);
+  res.json(newOrder);
 };
 
-exports.getPurchases = (req, res) => res.json(readData('purchases'));
+// --- NOVOS MÉTODOS ---
 
-exports.addPurchase = (req, res) => {
-  const purchases = readData('purchases');
-  const newPurchase = { id: Date.now(), ...req.body };
-  purchases.push(newPurchase);
-  writeData('purchases', purchases);
-  res.json(newPurchase);
+exports.getSuppliersInfo = (req, res) => {
+  const users = readData('users').filter(u => u.role === 'Fornecedor');
+  const safeUsers = users.map(({password, ...u}) => u); // Remove senhas
+  res.json(safeUsers);
+};
+
+exports.updateProfile = (req, res) => {
+  const users = readData('users');
+  const index = users.findIndex(u => u.id === parseInt(req.params.id));
+  if (index !== -1) {
+    users[index] = { ...users[index], ...req.body };
+    writeData('users', users);
+    res.json({ success: true, user: users[index] });
+  } else {
+    res.status(404).json({ error: 'Usuário não encontrado' });
+  }
+};
+
+exports.getEvaluations = (req, res) => res.json(readData('evaluations'));
+exports.addEvaluation = (req, res) => {
+  const evaluations = readData('evaluations');
+  const newEval = { id: Date.now(), date: new Date().toLocaleDateString('pt-BR'), ...req.body };
+  evaluations.push(newEval);
+  writeData('evaluations', evaluations);
+  res.json(newEval);
 };
