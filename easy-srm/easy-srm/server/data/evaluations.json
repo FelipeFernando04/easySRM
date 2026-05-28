@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1779923968500,
+    "date": "27/05/2026",
+    "supplierId": 1,
+    "buyerId": 2,
+    "buyerName": "João Compras",
+    "rating": 5,
+    "comment": "Buffet organizado"
+  },
+  {
+    "id": 1779924581601,
+    "date": "27/05/2026",
+    "supplierId": 1,
+    "buyerId": 2,
+    "buyerName": "João Compras",
+    "rating": 3,
+    "comment": "Não gostei"
+  }
+]

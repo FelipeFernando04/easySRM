@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1779924031851,
+    "status": "Pendente",
+    "date": "27/05/2026",
+    "buyerId": 2,
+    "buyerName": "João Compras",
+    "supplierId": 1,
+    "storeName": "Buffet Sabor & Arte",
+    "productId": 1779923892856,
+    "productName": "Mesa de festa",
+    "quantity": 1,
+    "total": 200
+  },
+  {
+    "id": 1779925140251,
+    "status": "Pendente",
+    "date": "27/05/2026",
+    "buyerId": 2,
+    "buyerName": "João Compras",
+    "supplierId": 1,
+    "storeName": "Buffet Sabor & Arte",
+    "productId": 1779925068688,
+    "productName": "100 Coxinhas",
+    "quantity": 2,
+    "total": 220
+  },
+  {
+    "id": 1779927184779,
+    "status": "Pendente",
+    "date": "27/05/2026",
+    "buyerId": 2,
+    "buyerName": "João Compras",
+    "supplierId": 1,
+    "storeName": "Buffet Sabor & Arte",
+    "productId": 1779925068688,
+    "productName": "100 Coxinhas",
+    "quantity": 1,
+    "total": 110
+  }
+]
